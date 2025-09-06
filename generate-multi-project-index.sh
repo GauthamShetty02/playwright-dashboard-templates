@@ -44,7 +44,7 @@ for project_dir in */; do
             # Count historical builds
             historical_count=$(ls -1d "$project_dir"/build-* 2>/dev/null | wc -l)
             if [ "$historical_count" -gt 0 ]; then
-                projects_content="$projects_content                            <a href=\"$project_dir/index.html\" class=\"project-link\">\n"
+                projects_content="$projects_content                            <a href=\"$project_dir\" class=\"project-link\">\n"
                 projects_content="$projects_content                                <span class=\"historical-count\">📈 $historical_count reports</span>\n"
                 projects_content="$projects_content                            </a>\n"
             else
