@@ -18,12 +18,14 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'hostinger-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh """
-                        # Copy template and script to VPS
+                        # Copy all templates and scripts to VPS
                         scp -i \$SSH_KEY -o StrictHostKeyChecking=no index-template.html ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
                         scp -i \$SSH_KEY -o StrictHostKeyChecking=no generate-index.sh ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
+                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no multi-project-template.html ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
+                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no generate-multi-project-index.sh ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
                         
-                        # Make script executable
-                        ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "chmod +x ${params.DEPLOY_PATH}/generate-index.sh"
+                        # Make scripts executable
+                        ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "chmod +x ${params.DEPLOY_PATH}/generate-index.sh ${params.DEPLOY_PATH}/generate-multi-project-index.sh"
                     """
                 }
             }
