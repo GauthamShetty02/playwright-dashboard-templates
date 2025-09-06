@@ -14,6 +14,11 @@ This project contains the HTML templates and scripts for generating the Playwrig
 2. Run Jenkins pipeline to deploy to VPS
 3. Test reports pipeline will use these templates automatically
 
+### Generate Script Usage
+```bash
+./generate-index.sh <BUILD_NUMBER> <DEPLOY_PATH> <PROJECT_NAME>
+```
+
 ## Template Variables
 
 - `{{BUILD_NUMBER}}` - Current build number

@@ -2,6 +2,7 @@
 
 BUILD_NUMBER=$1
 DEPLOY_PATH=$2
+PROJECT_NAME=$3
 
 cd $DEPLOY_PATH
 
@@ -27,4 +28,4 @@ if [ $(ls -1d build-* 2>/dev/null | wc -l) -eq 0 ]; then
 fi
 
 # Replace placeholders
-echo "$template" | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | sed "s|{{HISTORICAL_REPORTS}}|$historical_html|g" > index.html
+echo "$template" | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | sed "s/{{PROJECT_NAME}}/$PROJECT_NAME/g" | sed "s|{{HISTORICAL_REPORTS}}|$historical_html|g" > index.html
