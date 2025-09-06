@@ -22,7 +22,8 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'hostinger-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh """
-                        # Copy entire project to VPS
+                        # Create directory and copy project to VPS
+                        ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "mkdir -p ${params.DEPLOY_PATH}/dashboard-generator"
                         scp -i \$SSH_KEY -o StrictHostKeyChecking=no -r . ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/dashboard-generator/
                         
                         # Install dependencies and make scripts executable
