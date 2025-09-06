@@ -1,0 +1,17 @@
+{
+  "name": "playwright-dashboard-generator",
+  "version": "1.0.0",
+  "description": "Node.js generator for Playwright test report dashboards",
+  "main": "src/index.js",
+  "scripts": {
+    "generate": "node src/generate-index.js",
+    "generate-multi": "node src/generate-multi-project.js"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "handlebars": "^4.7.8"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
