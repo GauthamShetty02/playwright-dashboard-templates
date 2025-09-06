@@ -7,6 +7,10 @@ pipeline {
         string(name: 'DEPLOY_PATH', defaultValue: '/var/www/html/test-reports', description: 'Deployment Path on VPS')
     }
     
+    tools {
+        nodejs 'NodeJS'
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -14,18 +18,20 @@ pipeline {
             }
         }
         
-        stage('Deploy Templates to VPS') {
+        stage('Deploy Node.js Project to VPS') {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'hostinger-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh """
-                        # Copy all templates and scripts to VPS
-                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no index-template.html ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
-                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no generate-index.sh ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
-                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no multi-project-template.html ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
-                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no generate-multi-project-index.sh ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/
+                        # Copy entire project to VPS
+                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no -r . ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/dashboard-generator/
                         
-                        # Make scripts executable
-                        ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "chmod +x ${params.DEPLOY_PATH}/generate-index.sh ${params.DEPLOY_PATH}/generate-multi-project-index.sh"
+                        # Install dependencies and make scripts executable
+                        ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "
+                            cd ${params.DEPLOY_PATH}/dashboard-generator
+                            npm install
+                            chmod +x src/generate-index.js src/generate-multi-project.js
+                            chmod +x generate-index.sh generate-multi-project-index.sh
+                        "
                     """
                 }
             }
