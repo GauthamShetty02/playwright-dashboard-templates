@@ -17,4 +17,5 @@ This project contains the HTML templates and scripts for generating the Playwrig
 ## Template Variables
 
 - `{{BUILD_NUMBER}}` - Current build number
+- `{{PROJECT_NAME}}` - Project identifier for unique paths
 - `{{HISTORICAL_REPORTS}}` - Generated HTML for historical reports list
