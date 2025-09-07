@@ -26,12 +26,15 @@ pipeline {
                         ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "mkdir -p ${params.DEPLOY_PATH}/dashboard-generator"
                         scp -i \$SSH_KEY -o StrictHostKeyChecking=no -r . ${params.VPS_USER}@${params.VPS_IP}:${params.DEPLOY_PATH}/dashboard-generator/
                         
-                        # Install dependencies and make scripts executable
+                        # Install dependencies and regenerate dashboard
                         ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${params.VPS_USER}@${params.VPS_IP} "
                             cd ${params.DEPLOY_PATH}/dashboard-generator
-                            npm install
                             chmod +x src/generate-index.js src/generate-multi-project.js
                             chmod +x generate-index.sh generate-multi-project-index.sh
+                            
+                            # Regenerate multi-project dashboard
+                            cd ${params.DEPLOY_PATH}
+                            ./dashboard-generator/generate-multi-project-index.sh .
                         "
                     """
                 }
