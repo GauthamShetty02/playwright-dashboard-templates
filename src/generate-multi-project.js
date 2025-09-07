@@ -16,11 +16,8 @@ async function generateMultiProject(deployPath) {
     // Generate projects content
     const projectsContent = await generateProjectsContent();
     
-    // Compile template
-    const compiledTemplate = Handlebars.compile(template);
-    const html = compiledTemplate({
-      PROJECTS_CONTENT: projectsContent
-    });
+    // Replace placeholder directly to avoid HTML escaping
+    const html = template.replace('{{PROJECTS_CONTENT}}', projectsContent);
     
     // Write output
     await fs.writeFile('index.html', html);
