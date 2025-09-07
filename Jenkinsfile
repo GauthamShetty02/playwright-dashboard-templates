@@ -32,10 +32,6 @@ pipeline {
                             npm install
                             chmod +x src/generate-index.js src/generate-multi-project.js
                             chmod +x generate-index.sh generate-multi-project-index.sh
-                            
-                            # Regenerate multi-project dashboard
-                            cd ${params.DEPLOY_PATH}
-                            node dashboard-generator/src/generate-multi-project.js .
                         "
                     """
                 }
