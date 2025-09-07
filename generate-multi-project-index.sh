@@ -4,8 +4,12 @@ DEPLOY_PATH=$1
 
 cd $DEPLOY_PATH
 
-# Read template
-template=$(cat multi-project-template.html)
+# Read template from dashboard-generator directory
+if [ -f "dashboard-generator/multi-project-template.html" ]; then
+    template=$(cat dashboard-generator/multi-project-template.html)
+else
+    template=$(cat multi-project-template.html)
+fi
 
 # Generate projects content
 projects_content=""
