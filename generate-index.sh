@@ -6,8 +6,12 @@ PROJECT_NAME=$3
 
 cd $DEPLOY_PATH
 
-# Read template
-template=$(cat index-template.html)
+# Read template from dashboard-generator directory
+if [ -f "dashboard-generator/index-template.html" ]; then
+    template=$(cat dashboard-generator/index-template.html)
+else
+    template=$(cat index-template.html)
+fi
 
 # Generate historical reports HTML
 historical_html=""
