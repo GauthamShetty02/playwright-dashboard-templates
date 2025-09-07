@@ -63,29 +63,27 @@ async function generateProjectsContent() {
       </tr>`;
     }
     
-    return projectDirs.map(project => `
-      <tr>
+    return projectDirs.map(project => `<tr>
         <td>
           <a href="${project.name}/index.html" class="project-link">
-            <span class="project-name">🎭 ${project.name}</span>
+            <span class="project-name">${project.name}</span>
           </a>
         </td>
         <td>
           ${project.hasLatest 
-            ? `<a href="${project.name}/latest/index.html" class="latest-link">✅ View Latest</a>`
+            ? `<a href="${project.name}/latest/index.html" class="latest-link">View Latest</a>`
             : `<span class="historical-count">No latest report</span>`
           }
         </td>
         <td>
           ${project.historicalCount > 0
             ? `<a href="${project.name}" class="project-link">
-                <span class="historical-count">📊 ${project.historicalCount} reports</span>
+                <span class="historical-count">${project.historicalCount} reports</span>
               </a>`
             : `<span class="historical-count">No historical reports</span>`
           }
         </td>
-      </tr>
-    `).join('');
+      </tr>`).join('\n');
     
   } catch (error) {
     return `<tr>
